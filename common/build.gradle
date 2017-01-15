@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+
+android {
+    defaultPublishConfig "debug"
+
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent, String.format("utils_%s.aar", project.buildDir.parentFile.getName()))
+        }
+    }
+
+}
+
+dependencies {
+    compile 'com.android.support:support-annotations:23.2.0'
+}
